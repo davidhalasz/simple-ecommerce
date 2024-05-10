@@ -36,8 +36,12 @@ func (app *application) renderTemplate(w http.ResponseWriter, r *http.Request, p
 	var err error
 	templateToRender := fmt.Sprintf("templates/%s.page.tmpl", page)
 
+	// I'll ignore the first return parameter,
+	// I will get bool value of existing template page
 	_, templateInMap := app.templateCache[templateToRender]
 
+	// in production I don't want to be always stopping and starting this application every time
+	// I make a change to the file in the base layout. Instead I want it to happen automatically
 	if app.config.env == "production" && templateInMap {
 		t = app.templateCache[templateToRender]
 	} else {
@@ -48,12 +52,17 @@ func (app *application) renderTemplate(w http.ResponseWriter, r *http.Request, p
 		}
 	}
 
+	// check if data was passed with the call to add default data
+	// if it wasn't, we create an empty template data object
 	if td == nil {
 		td = &templateData{}
 	}
 
+	// add our default data
 	td = app.addDefaultData(td, r)
 
+	// after adding default data finally we can execute that template
+	// and return error if exits
 	err = t.Execute(w, td)
 	if err != nil {
 		app.errorLog.Println(err)
