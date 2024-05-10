@@ -49,8 +49,38 @@
     <script src="https://js.stripe.com/v3/"></script>
 
     <script>
-        function val() {
-            
-        }
+        let card;
+        let stripe;
+
+        stripe = Stripe('pk_test_51PEwFNJXMIpeNr7qMAb5EOaZQmY1O9FzMjx7Nwm5pjD3BeT9PzCIEqyBXKDN2r1a80tW5eyc7vlNlLuuqSBEj8wM00dYZbYoio');
+        
+        (function val() {
+            const elements = stripe.elements();
+            const style = {
+                base: {
+                    fontSize: '16px',
+                    lineHeight: '24px',
+                }
+            };
+
+            card = elements.create('card', {
+                style: style,
+                hidePostalCode: true,
+            });
+            card.mount('#card-element');
+
+            card.addEventListener('change', function(event) {
+                var displayError = document.getElementById("card-errors");
+                if (event.error) {
+                    displayError.classList.remove('d-none');
+                    displayError.classList.add('alert');
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.classList.add('d-none');
+                    displayError.classList.remove('alert');
+                    displayError.textContent = "";
+                }
+            });
+        })();
     </script>
 {{end}}
