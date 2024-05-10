@@ -11,7 +11,6 @@ import (
 
 const version = "1.0.0"
 
-// this hold configuration information for our application
 type config struct {
 	port int
 	env  string
@@ -40,6 +39,7 @@ func (app *application) serve() error {
 		ReadHeaderTimeout: 5 * time.Second,
 		WriteTimeout:      5 * time.Second,
 	}
+
 	app.infoLog.Printf(fmt.Sprintf("Starting Back end server in %s mode on port %d", app.config.env, app.config.port))
 
 	return srv.ListenAndServe()
@@ -48,8 +48,8 @@ func (app *application) serve() error {
 func main() {
 	var cfg config
 
-	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen om")
-	flag.StringVar(&cfg.env, "env", "development", "Application enviornemt {development|production|maintenance}")
+	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen on")
+	flag.StringVar(&cfg.env, "env", "development", "Application enviornment {development|production|maintenance}")
 
 	flag.Parse()
 
@@ -63,10 +63,11 @@ func main() {
 		config:   cfg,
 		infoLog:  infoLog,
 		errorLog: errorLog,
+		version:  version,
 	}
 
 	err := app.serve()
 	if err != nil {
-		app.errorLog.Println(err)
+		log.Fatal(err)
 	}
 }
