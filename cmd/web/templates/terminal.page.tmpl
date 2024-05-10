@@ -63,14 +63,22 @@
 
         stripe = Stripe('pk_test_51PEwFNJXMIpeNr7qMAb5EOaZQmY1O9FzMjx7Nwm5pjD3BeT9PzCIEqyBXKDN2r1a80tW5eyc7vlNlLuuqSBEj8wM00dYZbYoio');
         
+        function hidePayButton() {
+            payButton.classList.add("d-none");
+            processing.classList.remove("d-none");
+        }
+
+
         function val() {
             let form = document.getElementById("charge-form");
             if (form.checkValidity() == false) {
                 this.event.preventDefault();
                 this.event.stopPropagation();
                 form.classList.add('was-validated');
+                return;
             }
             form.classList.add("was-validated");
+            hidePayButton();
         }
 
         (function() {
