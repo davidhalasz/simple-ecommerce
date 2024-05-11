@@ -63,6 +63,7 @@ func main() {
 		config:   cfg,
 		infoLog:  infoLog,
 		errorLog: errorLog,
+		version:  version,
 	}
 
 	err := app.serve()
