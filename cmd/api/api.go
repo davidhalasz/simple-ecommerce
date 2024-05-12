@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"gostripeapp/internal/driver"
+	"gostripeapp/internal/models"
 	"log"
 	"net/http"
 	"os"
@@ -30,6 +31,7 @@ type application struct {
 	infoLog  *log.Logger
 	errorLog *log.Logger
 	version  string
+	DB       models.DBModel
 }
 
 func (app *application) serve() error {
@@ -51,7 +53,7 @@ func main() {
 
 	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen om")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviornemt {development|production|maintenance}")
-
+	flag.StringVar(&cfg.db.dsn, "dsn", "root@tcp(localhost:3306)/widgets?parseTime=true&tls=false", "DSN")
 	flag.Parse()
 
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
@@ -71,6 +73,7 @@ func main() {
 		infoLog:  infoLog,
 		errorLog: errorLog,
 		version:  version,
+		DB:       models.DBModel{DB: conn},
 	}
 
 	err = app.serve()
