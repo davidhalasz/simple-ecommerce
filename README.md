@@ -1,4 +1,4 @@
-## A simple selling product web application
+## A simple ecommerce web application
 
 Practicing to build a secure ecommerce application with golang. This app based on Trevor Sawler's project from [Udemy course](https://www.udemy.com/course/building-web-applications-with-go-intermediate-level/?couponCode=KEEPLEARNING)
 
