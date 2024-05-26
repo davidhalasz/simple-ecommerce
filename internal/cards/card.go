@@ -1,11 +1,11 @@
 package cards
 
 import (
-	"github.com/stripe/stripe-go/v76"
-	"github.com/stripe/stripe-go/v76/customer"
-	"github.com/stripe/stripe-go/v76/paymentintent"
-	"github.com/stripe/stripe-go/v76/paymentmethod"
-	"github.com/stripe/stripe-go/v76/subscription"
+	"github.com/stripe/stripe-go/v78"
+	"github.com/stripe/stripe-go/v78/customer"
+	"github.com/stripe/stripe-go/v78/paymentintent"
+	"github.com/stripe/stripe-go/v78/paymentmethod"
+	"github.com/stripe/stripe-go/v78/subscription"
 )
 
 type Card struct {
@@ -70,7 +70,7 @@ func (c *Card) RetrieveGetPaymentIntent(id string) (*stripe.PaymentIntent, error
 	return pi, nil
 }
 
-func (c *Card) SubscribeToPlan(cust *stripe.Customer, plan, email, last4, cardType string) (string, error) {
+func (c *Card) SubscribeToPlan(cust *stripe.Customer, plan, email, last4, cardType string) (*stripe.Subscription, error) {
 	stripeCustomerID := cust.ID
 	items := []*stripe.SubscriptionItemsParams{
 		{Plan: stripe.String(plan)},
@@ -86,9 +86,9 @@ func (c *Card) SubscribeToPlan(cust *stripe.Customer, plan, email, last4, cardTy
 	params.AddExpand("latest_invoice.payment_intent")
 	subscription, err := subscription.New(params)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return subscription.ID, nil
+	return subscription, nil
 }
 
 func (c *Card) CreateCustomer(pm, email string) (*stripe.Customer, string, error) {
