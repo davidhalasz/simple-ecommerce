@@ -156,6 +156,7 @@
                 fetch("{{.API}}/api/create-customer-and-subscribe-to-plan", requestOptions)
                     .then(response => response.json())
                     .then(function(data) {
+                        console.log("success");
                         console.log(data);
                         processing.classList.add("d-none");
                         // set hidden vars
