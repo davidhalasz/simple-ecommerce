@@ -1,1 +1,1 @@
-dropÜtable("customers")
+drop_table("customers")
