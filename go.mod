@@ -12,6 +12,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/stripe/stripe-go/v78 v78.6.0 // indirect
-	golang.org/x/crypto v0.23.0 // indirect
+	golang.org/x/crypto v0.23.0
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
