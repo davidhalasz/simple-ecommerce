@@ -296,22 +296,18 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 
 func (app *application) authenticateToken(r *http.Request) (*models.User, error) {
 	authorizationHeader := r.Header.Get("Authorization")
-	app.infoLog.Println("Called 1")
+
 	if authorizationHeader == "" {
-		app.infoLog.Println("error 1")
 		return nil, errors.New("no authorization header received")
 	}
 
-	app.infoLog.Println("Called 2")
 	headerParts := strings.Split(authorizationHeader, " ")
 	if len(headerParts) != 2 || headerParts[0] != "Bearer" {
-		app.infoLog.Println("error 2")
 		return nil, errors.New("no authorization header received")
 	}
 
 	token := headerParts[1]
 	if len(token) != 26 {
-		app.infoLog.Println("error 3")
 		return nil, errors.New("authentication token wrong size")
 	}
 
@@ -337,5 +333,5 @@ func (app *application) CheckAuthentication(w http.ResponseWriter, r *http.Reque
 	}
 	payload.Error = false
 	payload.Message = fmt.Sprintf("authenticated user %s", user.Email)
-	app.invalidCredentials(w)
+	app.writeJSON(w, http.StatusOK, payload)
 }
