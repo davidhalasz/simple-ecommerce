@@ -12,7 +12,7 @@ Practicing to build a secure ecommerce application with golang. This app based o
 ```
 soda migrate
 ```
-4. Copy your Stripe keys to Makefile
+4. Copy your Stripe keys, smtp data and edit ports if you needed in Makefile.example (remove .example extension)
 5. Run te app:
 ```
 make start
@@ -25,8 +25,9 @@ make start
 - [x] Stripe credit card processing implementation
 - [x] Connecting to MySQL
 - [x] Build database with Go Buffalo & FIZZ
+- [x] Authentication 
+- [x] Protecting Routes
 - [ ] Build Dashboard 
-- [ ] Authentication
 - [ ] Admin Pages
 - [ ] Sending Mails
 - [ ] build Microservices (generating PDF)
