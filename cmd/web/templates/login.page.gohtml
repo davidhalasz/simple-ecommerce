@@ -5,6 +5,8 @@
 {{end}}
 
 {{define "content"}}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
         <form action="/login" method="post"
         name="login-form" id="login-form"
         class="d-block needs-validation login-form"
@@ -31,6 +33,8 @@
 
         <a href="javascript:void(0)" class="btn btn-primary" onclick="val()">Login</a>
     </form>
+    </div>
+    </div>
 {{end}}
 
 {{define "js"}}
