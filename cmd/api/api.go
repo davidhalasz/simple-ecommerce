@@ -24,6 +24,12 @@ type config struct {
 		secret string
 		key    string
 	}
+	smtp struct {
+		host     string
+		port     int
+		username string
+		password string
+	}
 }
 
 type application struct {
@@ -54,10 +60,14 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen om")
 	flag.StringVar(&cfg.env, "env", "development", "Application enviornemt {development|production|maintenance}")
 	flag.StringVar(&cfg.db.dsn, "dsn", "root@tcp(localhost:3306)/widgets?parseTime=true&tls=false", "DSN")
+	flag.IntVar(&cfg.smtp.port, "smtpport", 587, "smtp port")
 	flag.Parse()
 
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
+	cfg.smtp.host = os.Getenv("SMTP_HOST")
+	cfg.smtp.username = os.Getenv("SMTP_USERNAME")
+	cfg.smtp.password = os.Getenv("SMTP_PASS")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
