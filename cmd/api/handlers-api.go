@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"gostripeapp/internal/cards"
+	"gostripeapp/internal/encryption"
 	"gostripeapp/internal/models"
 	"gostripeapp/internal/urlsigner"
 	"net/http"
@@ -469,7 +470,17 @@ func (app *application) ResetPassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := app.DB.GetUserByEmail(payload.Email)
+	encryptor := encryption.Encryption{
+		Key: []byte(app.config.secretkey),
+	}
+
+	realMail, err := encryptor.Decrypt(payload.Email)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	user, err := app.DB.GetUserByEmail(realMail)
 	if err != nil {
 		app.badRequest(w, r, err)
 		return
