@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"gostripeapp/internal/cards"
 	"gostripeapp/internal/models"
+	"gostripeapp/internal/urlsigner"
 	"net/http"
 	"strconv"
 	"time"
@@ -332,4 +334,22 @@ func (app *application) ForgotPassword(w http.ResponseWriter, r *http.Request) {
 	if err := app.renderTemplate(w, r, "forgot-password", &templateData{}); err != nil {
 		app.errorLog.Print(err)
 	}
+}
+
+func (app *application) ShowResetPassword(w http.ResponseWriter, r *http.Request) {
+	theURL := r.RequestURI
+	testUrl := fmt.Sprintf("%s%s", app.config.frontend, theURL)
+
+	signer := urlsigner.Signer{
+		Secret: []byte(app.config.secretkey),
+	}
+
+	valid := signer.VerifyToken(testUrl)
+
+	if valid {
+		w.Write([]byte("valid"))
+	} else {
+		w.Write([]byte("invalid"))
+	}
+
 }
